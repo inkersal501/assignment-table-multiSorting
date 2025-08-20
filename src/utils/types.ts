@@ -17,4 +17,14 @@ export interface Client {
 
 export interface ClientTableProps {
   clients: Client[];
+  activeClientType: string;
 }
+export interface theadType {
+    key: string; 
+    label:string;
+}
+
+export type SortConfigType = {
+  key: keyof Client;
+  direction: "asc" | "desc";
+} | null;
