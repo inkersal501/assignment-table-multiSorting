@@ -1,5 +1,4 @@
 import './App.css'
-
 import ClientTable from './components/ClientTable'
 import FilterData from './components/FilterData';
 
@@ -14,10 +13,10 @@ function App() {
 
   return (
     <>
-      <div className='px-8 py-4 border-b border-b-gray-300'>
+      <div className='px-16 py-4 border-b border-b-gray-300'>
         <h2 className='font-bold text-xl'>Clients</h2>
       </div>
-      <div className='px-8 py-4'>
+      <div className='px-16 py-4'>
         <FilterData activeClientType={activeClientType} setActiveClientType={setActiveClientType}/>
         <ClientTable clients={clients} activeClientType={activeClientType} />
       </div>

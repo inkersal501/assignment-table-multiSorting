@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
-import type { Client, ClientTableProps, ClientStatus, theadType, SortConfigType } from "../utils/types";
-import { RiArrowUpDownLine, RiArrowUpLine, RiArrowDownLine } from "react-icons/ri";
+import { useAppSelector } from "../store/hooks"; 
+import { applyMultiSort } from "../utils/applyMultiSort";
+
+import type { Client, ClientTableProps, ClientStatus, theadType } from "../utils/types";
 
 const statusColors: Record<ClientStatus, string> = {
   Active: "bg-green-100 text-green-800",
@@ -8,7 +9,7 @@ const statusColors: Record<ClientStatus, string> = {
   Pending: "bg-yellow-100 text-yellow-800",
 };
 
-const thead : theadType[] = [
+const thead: theadType[] = [
   { key: "clientId", label: "Client ID" },
   { key: "clientName", label: "Name" },
   { key: "clientType", label: "Type" },
@@ -21,73 +22,29 @@ const thead : theadType[] = [
   { key: "createdAt", label: "Created At" },
   { key: "updatedAt", label: "Updated At" },
 ];
-function ClientTable({clients, activeClientType} : ClientTableProps) {
 
-  const [sortConfig, setSortConfig] = useState<SortConfigType>(null);
-
-  const handleSort = (key: keyof Client) => {
-    setSortConfig((prev) =>
-      prev && prev.key === key
-        ? { key, direction: prev.direction === "asc" ? "desc" : "asc" }
-        : { key, direction: "asc" }
-    );
-  };
-
-  const sortedClients = useMemo(() => {
-    let filtered = [...clients];
-    if (activeClientType !== "All") {
-      filtered = filtered.filter(c => c.clientType === activeClientType);
-    }
-    if (!sortConfig) return filtered;
-
-    return filtered.sort((a, b) => {
-      const { key, direction } = sortConfig;
-      let valueA: string | number = a[key];
-      let valueB: string | number = b[key];
-
-      // Special rules
-      if (key === "clientId") {
-        valueA = parseInt(valueA.replace(/\D/g, ""), 10);
-        valueB = parseInt(valueB.replace(/\D/g, ""), 10);
-      } else if (key === "createdAt" || key === "updatedAt") {
-        valueA = new Date(valueA).getTime();
-        valueB = new Date(valueB).getTime();
-      } else {
-        valueA = valueA.toString().toLowerCase();
-        valueB = valueB.toString().toLowerCase();
-      }
-
-      if (valueA < valueB) return direction === "asc" ? -1 : 1;
-      if (valueA > valueB) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [clients, sortConfig, activeClientType]);
-
-  const renderSortIcon = (col: keyof Client) => {
-    if (!sortConfig || sortConfig.key !== col) return <RiArrowUpDownLine />;
-    return sortConfig.direction === "asc" ? <RiArrowUpLine /> : <RiArrowDownLine />;
-  };
+function ClientTable({ clients, activeClientType }: ClientTableProps) { 
+  
+  const multiSort = useAppSelector((state) => state.sort.sorts); 
+  const sortedClients = applyMultiSort(clients, activeClientType, multiSort);
 
   return (
     <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
+      
       <table className="min-w-full divide-y divide-gray-200 text-sm">
         <thead className="text-left text-gray-400">
           <tr>
             {thead.map((col) => (
-              <th
-                key={col.key}
-                className="px-4 py-2 cursor-pointer select-none"
-                onClick={() => handleSort(col.key as keyof Client)}
-              >
+              <th key={col.key} className="px-4 py-2">
                 <div className="flex items-center gap-1">
-                  {col.label} {renderSortIcon(col.key as keyof Client)}
+                  {col.label}
                 </div>
               </th>
-            ))} 
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-300">
-          {sortedClients.map((client : Client) => (
+          {sortedClients.map((client: Client) => (
             <tr key={client.clientId} className="hover:bg-blue-50">
               <td className="px-4 py-2 font-medium text-blue-600">{client.clientId}</td>
               <td className="px-4 py-2">{client.clientName}</td>
@@ -110,6 +67,7 @@ function ClientTable({clients, activeClientType} : ClientTableProps) {
           ))}
         </tbody>
       </table>
+ 
     </div>
   );
 }

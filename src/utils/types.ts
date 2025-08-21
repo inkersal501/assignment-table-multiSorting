@@ -19,12 +19,20 @@ export interface ClientTableProps {
   clients: Client[];
   activeClientType: string;
 }
+
 export interface theadType {
-    key: string; 
-    label:string;
+  key: keyof Client; 
+  label: string;
 }
+
+export type SortDirection = "asc" | "desc";
 
 export type SortConfigType = {
   key: keyof Client;
-  direction: "asc" | "desc";
+  direction: SortDirection;
 } | null;
+
+export type MultiSortConfig = {
+  key: keyof Client;
+  direction: SortDirection;
+}[];
