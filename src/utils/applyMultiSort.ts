@@ -12,8 +12,8 @@ export function applyMultiSort(data: Client[], activeClientType: string, sorts: 
     for (const sort of sorts) {
       const { key, direction } = sort;
 
-      const aVal = a[key as keyof Client];
-      const bVal = b[key as keyof Client];
+      const aVal = a[key as keyof Client] as string | Date | number;
+      const bVal = b[key as keyof Client] as string | Date | number;
 
       let comparison = 0;
 
