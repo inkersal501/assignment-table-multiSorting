@@ -107,7 +107,7 @@ function MultiSortModal({ onClose }: MultiSortModalProps) {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleDirectionChange(index, "asc")}
-                    className={`flex gap-1 items-center px-2 py-1 text-sm rounded ${
+                    className={`flex gap-1 items-center px-2 py-1 text-sm rounded cursor-pointer ${
                       sort.direction === "asc"
                         ? "bg-blue-100 text-blue-600"
                         : "bg-gray-200 text-gray-600"
@@ -117,7 +117,7 @@ function MultiSortModal({ onClose }: MultiSortModalProps) {
                   </button>
                   <button
                     onClick={() => handleDirectionChange(index, "desc")}
-                    className={`flex gap-1 items-center px-2 py-1 text-sm rounded ${
+                    className={`flex gap-1 items-center px-2 py-1 text-sm rounded cursor-pointer ${
                       sort.direction === "desc"
                         ? "bg-blue-100 text-blue-600"
                         : "bg-gray-200 text-gray-600"
@@ -147,7 +147,7 @@ function MultiSortModal({ onClose }: MultiSortModalProps) {
                 <button
                   key={col.key}
                   onClick={() => handleAdd(col)}
-                  className="px-2 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300"
+                  className="px-2 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300 cursor-pointer"
                 >
                   {col.label}
                 </button>

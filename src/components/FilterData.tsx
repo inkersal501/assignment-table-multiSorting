@@ -16,7 +16,7 @@ type FilterDataProps = {
 }
 
 const ClientType :React.FC<ClientTypeProps>= ({clientType, activeClientType, setActiveClientType}) => (
-<span className={`p-4 cursor-pointer ${activeClientType === clientType && "border-b-2 border-black text-black"}`} onClick={()=>setActiveClientType(clientType)}>{clientType}</span>
+<span className={`p-4 cursor-pointer hover:text-black ${activeClientType === clientType && "border-b-2 border-black text-black"}`} onClick={()=>setActiveClientType(clientType)}>{clientType}</span>
 );
 
 function FilterData({activeClientType = "All", setActiveClientType} : FilterDataProps ) {
@@ -25,16 +25,16 @@ function FilterData({activeClientType = "All", setActiveClientType} : FilterData
     const sorts = useAppSelector((state) => state.sort.sorts);
 
     return (
-        <div className="relative">
+        <div className="relative px-2">
         <div className="flex justify-between items-center">
             <div className="flex gap-2 text-gray-500 font-semibold">
                 <ClientType clientType="All" activeClientType={activeClientType} setActiveClientType={setActiveClientType} />
                 <ClientType clientType="Individual" activeClientType={activeClientType} setActiveClientType={setActiveClientType} />
                 <ClientType clientType="Company" activeClientType={activeClientType} setActiveClientType={setActiveClientType} /> 
             </div>
-            <div className="flex gap-5 items-center text-gray-500">
-                <span><FiSearch size={20} className="cursor-pointer"/></span>
-                <span className="relative inline-block">
+            <div className="flex gap-2 items-center text-gray-500">
+                <span className="hover:bg-gray-200 p-2 hover:rounded-full"><FiSearch size={20} className="cursor-pointer"/></span>
+                <span className="relative inline-block hover:bg-gray-200 p-2 hover:rounded-full">
                     <RiArrowUpDownLine size={24} className="cursor-pointer" onClick={() => dispatch(openModal())} />
                     {sorts.length > 0 && (
                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
@@ -42,7 +42,7 @@ function FilterData({activeClientType = "All", setActiveClientType} : FilterData
                         </span>
                     )}
                 </span>
-                <span><FiFilter size={20} className="cursor-pointer" /></span>              
+                <span className="hover:bg-gray-200 p-2 hover:rounded-full me-4"><FiFilter size={20} className="cursor-pointer" /></span>              
                 <button className="flex gap-2 items-center bg-gray-800 text-white px-4 py-2 rounded-lg cursor-pointer"><FiPlus size={18} /> Add Client</button>
             </div>
         </div>
