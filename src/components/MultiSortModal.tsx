@@ -157,7 +157,7 @@ function MultiSortModal({ onClose }: MultiSortModalProps) {
         </div>
 
         {/* Actions */}
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <button onClick={handleClear} className="text-gray-500 hover:underline cursor-pointer">
             Clear all
           </button>
